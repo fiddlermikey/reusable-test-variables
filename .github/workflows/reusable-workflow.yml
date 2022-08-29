@@ -25,4 +25,4 @@ jobs:
         shell: pwsh
         run: |
           $json = Get-Content ${{ inputs.json-infile }} | ConvertFrom-Json
-          echo "::set-output name=prop::$(echo $json.update_catalog)"
+          echo "::set-output name=prop::$(echo $json.${{ inputs.json-infile }})"
