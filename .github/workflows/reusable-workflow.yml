@@ -5,6 +5,9 @@ on:
       json-prop:
         required: true
         type: string
+      json-infile:
+        required: true
+        type: string
     outputs:  
       json_property:
         description: value retrieved from manifest file
