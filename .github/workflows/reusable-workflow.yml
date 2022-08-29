@@ -1,28 +1,30 @@
-name: Starter Workflow
+name: Convert JSON Property to Action Output
 on: 
   workflow_call:
     inputs: 
-      json-prop:
+      json-ID:
+        description: Json property name to lookup
         required: true
         type: string
-      json-infile:
+      json-path:
+        description: Json file to use
         required: true
         type: string
     outputs:  
-      json_property:
-        description: value retrieved from manifest file
-        value: ${{ jobs.get-manifest-properties.outputs.update_catalog}}
+      json_value:
+        description: value retrieved from json file
+        value: ${{ jobs.get-manifest-properties.outputs.json-value}}
         
 jobs:
   get-manifest-properties:
     runs-on: windows-latest
     outputs:
-      update_catalog: ${{ steps.read-json.outputs.prop }}
+      json-value: ${{ steps.read-json.outputs.prop }}
     steps:
       - uses: actions/checkout@v3
       - name: Read json
         id: read-json
         shell: pwsh
         run: |
-          $json = Get-Content ${{ inputs.json-infile }} | ConvertFrom-Json
-          echo "::set-output name=prop::$(echo $json.${{ inputs.json-prop }})"
+          $json = Get-Content ${{ inputs.json-path }} | ConvertFrom-Json
+          echo "::set-output name=prop::$(echo $json.${{ inputs.json-ID }})"
